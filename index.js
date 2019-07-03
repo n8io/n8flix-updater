@@ -1,25 +1,22 @@
-const chokidar = require('chokidar');
-const got = require('got');
+const express = require('express');
+const bodyParser = require('body-parser');
+const shell = require('shelljs');
+
+const app = express();
+
+const Library = {
+  MOVIES: 3,
+  TV: 2,
+  UNKNOWN: 0
+};
 
 const {
-  DRY_RUN = '',
-  HOST = 'plex.n8io.com',
-  PATHNAME = '',
-  PROTOCOL = 'http',
   PORT = '1981',
   WATCH_DIR = '/mnt/x/decrypted/**/*.(mkv|mp4|avi|n8)'
 } = process.env;
 
-const uri = `${PROTOCOL}://${HOST}:${PORT}/${PATHNAME}`;
-
-const sendPath = async tmpPath => {
-  let path = tmpPath;
-
-  if (tmpPath && !tmpPath.startsWith('/')) {
-    path = `/${tmpPath}`;
-  }
-
-  return library;
+const exec = command => {
+  shell.exec(command);
 };
 
 const tranformPath = path => {
@@ -48,6 +45,18 @@ const log = msg => {
   const dt = new Intl.DateTimeFormat('en-US', options).format(new Date());
 
   console.log(`${dt}: ${msg}`);
+};
+
+const parseLibrary = path => {
+  if (/\/tv\//g.test(path)) {
+    return Library.TV;
+  }
+
+  if (/\/movies\//g.test(path)) {
+    return Library.MOVIES;
+  }
+
+  return Library.UNKNOWN;
 };
 
 const handleRequest = (req, res) => {
@@ -88,5 +97,6 @@ app.use(bodyParser.json());
 app.post('/', handleRequest);
 app.get('/', (_, res) => res.json({ message: 'OK' }));
 
-log(`Paths will be posted to ${uri}`);
-log(`Watcher started for ${WATCH_DIR} ...`);
+app.listen(PORT, () => {
+  log(`App started and listening on ${PORT}`);
+});
