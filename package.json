@@ -1,7 +1,7 @@
 {
   "name": "n8flix-watcher",
   "version": "1.0.0",
-  "description": "Watch for file deletions in directories",
+  "description": "Targeted Plex updates based on a path",
   "main": "index.js",
   "author": "Nate Clark <n8@n8io.com>",
   "license": "MIT",
