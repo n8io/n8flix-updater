@@ -10,10 +10,7 @@ const Library = {
   UNKNOWN: 0
 };
 
-const {
-  PORT = '1981',
-  WATCH_DIR = '/mnt/x/decrypted/**/*.(mkv|mp4|avi|n8)'
-} = process.env;
+const { DRY_RUN = '', PORT = '1981' } = process.env;
 
 const exec = command => {
   shell.exec(command);
@@ -60,7 +57,7 @@ const parseLibrary = path => {
 };
 
 const handleRequest = (req, res) => {
-  const { debug, path: tmpPath } = req.body;
+  const { debug = Boolean(DRY_RUN), path: tmpPath } = req.body;
 
   const path = tranformPath(tmpPath);
 
