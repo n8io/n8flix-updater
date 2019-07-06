@@ -1,0 +1,11 @@
+frontail:
+  image: 'mthenw/frontail'
+  ports:
+    - 9001:9001
+  volumes:
+    - '.:/logs'
+  command:
+    - -U ${USER}
+    - -P ${PASSWORD}
+    - -t dark
+    - /logs/commands.log
