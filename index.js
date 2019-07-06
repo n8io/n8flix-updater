@@ -18,7 +18,7 @@ const exec = command => {
 };
 
 const tranformPath = path => {
-  const reg = /([/]mnt[/]x[/]decrypted[/](tv|movies)[/](adult|release|prerelease))[/].*[/]/g;
+  const reg = /([/]mnt[/]x[/]decrypted[/](tv|movies)[/](adult|kids|release|prerelease))[/].*[/]/g;
 
   const validPath = ((path || '').match(reg) || [])[0];
 
