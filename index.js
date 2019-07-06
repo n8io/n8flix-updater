@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const shell = require('shelljs');
+const { log, start: rotateLogs } = require('./logs');
 
 const app = express();
 
@@ -26,22 +27,6 @@ const tranformPath = path => {
 
 const makeCommand = (path, library) => {
   return `LD_LIBRARY_PATH="/usr/lib/plexmediaserver" PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/home/plexmediaserver/Library/Application Support" "/usr/lib/plexmediaserver/Plex Media Scanner" --scan --no-thumbs --section ${library} --directory "${path}"`;
-};
-
-const log = msg => {
-  const options = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: 'America/New_York'
-  };
-
-  const dt = new Intl.DateTimeFormat('en-US', options).format(new Date());
-
-  console.log(`${dt}: ${msg}`);
 };
 
 const parseLibrary = path => {
@@ -97,3 +82,5 @@ app.get('/', (_, res) => res.json({ message: 'OK' }));
 app.listen(PORT, () => {
   log(`App started and listening on ${PORT}`);
 });
+
+rotateLogs();
