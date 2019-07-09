@@ -3,9 +3,9 @@ frontail:
   ports:
     - 9001:9001
   volumes:
-    - '.:/logs'
+    - .:/logs
   command:
-    - -U ${USER}
-    - -P ${PASSWORD}
+    - -U "${USER}"
+    - -P "${PASSWORD}"
     - -t dark
     - /logs/commands.log

@@ -17,7 +17,7 @@ const exec = command => {
   shell.exec(command);
 };
 
-const tranformPath = path => {
+const transformPath = path => {
   const reg = /([/]mnt[/]x[/]decrypted[/](tv|movies)[/](adult|kids|release|prerelease))[/].*[/]/g;
 
   const validPath = ((path || '').match(reg) || [])[0];
@@ -26,7 +26,7 @@ const tranformPath = path => {
 };
 
 const makeCommand = (path, library) => {
-  return `LD_LIBRARY_PATH="/usr/lib/plexmediaserver" PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/home/plexmediaserver/Library/Application Support" "/usr/lib/plexmediaserver/Plex Media Scanner" --scan --no-thumbs --section ${library} --directory "${path}"`;
+  return `LD_LIBRARY_PATH="/usr/lib/plexmediaserver" PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="/home/plexmediaserver/Library/Application Support" "/usr/lib/plexmediaserver/Plex Media Scanner" --scan --refresh --section ${library} --directory "${path}"`;
 };
 
 const parseLibrary = path => {
@@ -44,7 +44,7 @@ const parseLibrary = path => {
 const handleRequest = (req, res) => {
   const { debug = Boolean(DRY_RUN), path: tmpPath } = req.body;
 
-  const path = tranformPath(tmpPath);
+  const path = transformPath(tmpPath);
 
   if (!path) {
     return res.status(400).json({ message: 'No path provided in the payload' });
