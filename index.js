@@ -6,6 +6,7 @@ const { log, start: rotateLogs } = require('./logs');
 const app = express();
 
 const Library = {
+  MOVIES_PRERELEASE: 4,
   MOVIES: 3,
   TV: 2,
   UNKNOWN: 0
@@ -30,12 +31,16 @@ const makeCommand = (path, library) => {
 };
 
 const parseLibrary = path => {
-  if (/\/tv\//g.test(path)) {
+  if (/\/tv\/adult\//g.test(path)) {
     return Library.TV;
   }
 
-  if (/\/movies\//g.test(path)) {
+  if (/\/movies\/release\//g.test(path)) {
     return Library.MOVIES;
+  }
+
+  if (/\/movies\/prerelease\//g.test(path)) {
+    return Library.MOVIES_PRERELEASE;
   }
 
   return Library.UNKNOWN;
